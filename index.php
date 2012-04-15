@@ -40,17 +40,26 @@ if (isset($_GET['modified'])) {
     echo json_encode(array("modified" => $current_modified));
     die;
 }
+
 ?><!DOCTYPE html>
 <html style="height: 100%;">
 <head>
     <meta charset="utf-8" />
-    <title>.auto-refresh</title>
     
+    <?php if (isset($_GET['m'])) : ?>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <?php endif; ?>
+    
+    <title>.auto-refresh</title>
+
     <script src="http://code.jquery.com/jquery-1.7.2.min.js" type="text/javascript"></script>
     <script type="text/javascript">
-        
+
         var file = '<?php echo $file; ?>';
-        
+
         var modified = 0;
         function updateIfModified() {
             url = '?f=' + file + '&modified=' + modified;
@@ -64,27 +73,20 @@ if (isset($_GET['modified'])) {
                     setTimeout(updateIfModified, 100);
                 },
                 error: function() {
-                    setTimeout(updateIfModified, 2000);
+                    setTimeout(updateIfModified, 1000);
                 }
             });
         }
-        
-        function getDirPath(URL) {
-            return unescape(URL.substring(0,(URL.lastIndexOf("/")) + 1))
-        }
 
         $(document).ready(function() {
-            // Uncomment to get see code changes automatically reflected on anyone visiting the page
             updateIfModified();
-            
             $("#iframe").attr('src', '../' + file);
         });
-        
+
     </script>
 </head>
 
-<body style="height: 100%; margin: 0;  padding:0; margin:0;">
-    <iframe id="iframe" style="position:absolute; top:0px; left:0px; border: 0; width: 100%; height: 100%"></iframe>
+<body style="height: 100%; margin: 0; padding:0; margin:0;">
+    <iframe src="http://hak.alkoholisten.se/dev/map/" id="iframe" style="position:absolute; top:0px; left:0px; border: 0; width: 100%; height: 100%"></iframe>
 </body>
-
 </html>
