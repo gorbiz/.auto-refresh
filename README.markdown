@@ -8,7 +8,7 @@ Auto refresh any browser window as your one-filed-web-application is being edite
     $ git clone git@github.com:gorbiz/.auto-refresh.git
     $ google-chrome http://example.com/my-web-application/.auto-refresh
 
-You can now open http://example.com/my-web-application/.auto-refresh in any (reasonably modern) browser on any device, and as soon as you change your <whatever>.html or <whatever>.php file the page will refresh in all browsers on all devices.
+You can now open http://example.com/my-web-application/.auto-refresh in any (reasonably modern) browser on any device, and as soon as you change your .html or .php file the page will refresh in all open browsers on all devices.
 
 ## Be aware
 
