@@ -69,7 +69,9 @@ if (isset($_GET['modified'])) {
                 dataType: 'json',
                 success: function(data) {
                     modified = data['modified'];
-                    $("#iframe").attr('src', $("#iframe").attr('src'));
+                    var x = $("#iframe").attr('src');
+                    x += (x.indexOf('?') != -1) ? '&' : '?';
+                    $("#iframe").attr('src', x + 'r=' + (new Date()).getTime());
                     setTimeout(updateIfModified, 100);
                 },
                 error: function() {
