@@ -22,6 +22,11 @@ if (isset($_GET['f']) && !empty($_GET['f'])) {
     $file = find_file();
 }
 
+$url = null;
+if (isset($_GET['url']) && !empty($_GET['url'])) {
+    $url = $_GET['url'];
+}
+
 $absolute_file = '..' . DIRECTORY_SEPARATOR . $file;
 
 if (!$file || !file_exists($absolute_file)) {
@@ -63,7 +68,6 @@ if (isset($_GET['modified'])) {
         var modified = 0;
         function updateIfModified() {
             url = '?f=' + file + '&modified=' + modified;
-            console.log(url);
             $.ajax({
                 url: url,
                 dataType: 'json',
@@ -71,7 +75,11 @@ if (isset($_GET['modified'])) {
                     modified = data['modified'];
                     var x = $("#iframe").attr('src');
                     x += (x.indexOf('?') != -1) ? '&' : '?';
+                    <?php if ($url): ?>
+                    $("#iframe").attr('src', '<?php echo $url; ?>');
+                    <?php else: ?>
                     $("#iframe").attr('src', x + 'r=' + (new Date()).getTime());
+                    <?php endif; ?>
                     setTimeout(updateIfModified, 100);
                 },
                 error: function() {
@@ -82,13 +90,17 @@ if (isset($_GET['modified'])) {
 
         $(document).ready(function() {
             updateIfModified();
+            <?php if ($url): ?>
+            $("#iframe").attr('src', '<?php echo $url; ?>');
+            <?php else: ?>
             $("#iframe").attr('src', '../' + file);
+            <?php endif; ?>
         });
 
     </script>
 </head>
 
 <body style="height: 100%; margin: 0; padding:0; margin:0;">
-    <iframe src="http://hak.alkoholisten.se/dev/map/" id="iframe" style="position:absolute; top:0px; left:0px; border: 0; width: 100%; height: 100%"></iframe>
+    <iframe src="" id="iframe" style="position:absolute; top:0px; left:0px; border: 0; width: 100%; height: 100%"></iframe>
 </body>
 </html>
